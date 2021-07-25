@@ -1,9 +1,4 @@
-import {TextMessage} from "./DataType/TextMessage";
-import {User} from "./DataType/User";
-import {PrivateChat} from "./DataType/PrivateChat";
-
-const {LoginStateAction} = require("./DataType/LoginStateAction");
-
+const Actions = require('./DataType/Actions').Actions
 const express = require('express');
 //
 exports.CoreServer = class CoreServer{
@@ -49,24 +44,6 @@ exports.CoreServer = class CoreServer{
         //
         if (message.MessageType === 'Login'){
             this.LoginUser(message.Data.UserName,message.Data.Password,ws);
-        }   if (message.MessageType === 'GetMessage'){
-            let mamad = new User();
-            let amir = new User();
-            //
-            mamad.ID = 1;
-            mamad.UserName = 'mamad';
-            //
-            amir.ID = 2;
-            amir.UserName = 'amir';
-            //
-            let chatMamadVaAmir = new PrivateChat();
-            chatMamadVaAmir.ID = 1;
-            //
-            //
-            ws.send(JSON.stringify([
-                new TextMessage('mamad')
-            ]));
-            //
         } else if(message.MessageType === 'NewMessage'){
             console.log('NewMessage');
         }
@@ -92,7 +69,7 @@ exports.CoreServer = class CoreServer{
         //// do ////
         this.ClientConnectionSocketLists.push(ws);
         //// clear ////
-        let SuccessLoginAction = new LoginStateAction({state : 'Success'});
+        let SuccessLoginAction = new Actions.LoginState('Success');
     }
     //
 }
