@@ -1,0 +1,7 @@
+.StatusBarComponent{
+    padding: 5px;
+    border: 1px solid black;
+}
+.StatusBarComponent h5{
+    margin: 0;
+}

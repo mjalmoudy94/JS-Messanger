@@ -1,0 +1,4 @@
+.AppComponent {
+    display: flex;
+    flex-direction: column;
+}
