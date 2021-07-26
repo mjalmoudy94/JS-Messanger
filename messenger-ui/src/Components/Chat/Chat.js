@@ -18,7 +18,13 @@ class Chat extends React.Component {
   {
     let message = this.state.message;
     console.log(message);
-    message.push(new TextMessage(item));
+    message.push(new TextMessage(item)); // add  new item to last index
+    
+    if(message.length > 10) //limit for message list 
+    {
+      message.splice(0,1);// remove first index
+    }
+
     this.setState({message : message});
   }
 
