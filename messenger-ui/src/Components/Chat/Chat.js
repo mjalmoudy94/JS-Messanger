@@ -2,40 +2,40 @@ import './Chat.css';
 import React from 'react';
 
 import MessageInput from '../messageInput/messageInput';
-import { MediaChat } from '../media-chat/media-chat';
-import { MediaChatReverse } from '../media-chat/media-chat';
-import ChatContainer from '../chat-container/container';
+import ChatContainer from '../chat-container/chat-container';
+import {TextMessage}  from '../../core/DataClasses/TextMessage';
+import StatusBar from '../StatusBar/StatusBar';
+
 
 class Chat extends React.Component {
 
   constructor(props)
   {
     super(props);
-    this.state = { message:[null] };
+    //test 
+    this.state = {message : [new TextMessage("hello"), new TextMessage("hi"),new TextMessage("Amirreza")]}
   } 
-
-  // this function call in message input
-  AddNewChat(event)
+    
+  messageListChanger(item)
   {
-    let temp = this.state.message;
-
-    if(event.type === 'keypress')
+    let message = this.state.message;
+    console.log(message);
+    message.push(new TextMessage(item)); // add  new item to last index
+    
+    if(message.length > 10) //limit for message list 
     {
-        if(event.code === "Enter" && event.target.value !== null && event.target.value !== '')
-        {
-          temp.push(event.target.value);
-        }
+      message.splice(0,1);// remove first index
     }
-    else if(event.type === 'click')
-    {
-        temp.push(event.target.value);
-    } 
 
-    this.setState({message : temp});
+    this.setState({message : message});
+  }
+
+    componentDidUpdate()
+  {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }
 
   render() {
-    
     return (  
       <>
         <div className="container">
@@ -43,23 +43,21 @@ class Chat extends React.Component {
             <div className="col-6">
               <div className="card container">
                 <div className="card-header">
-                  <div className="row">
-                    <div className="offset-8 item-hover">
-                      <i className="fas fa-bell bell-color"><i className="fa fa-circle-1" style={{ margin: "10px", fontSize: "15px", color: "red" }} ></i></i>
-                    </div>
-                  </div>
+                  <StatusBar></StatusBar>
                 </div>
                 <div className="card-body">
                   <div id="message-box" className="chat-box-massage">
-                    <ChatContainer />
+                    <ChatContainer MessageList={this.state.message} />                 
+                      {/* this is for scroll when component Becomes update*/}
+                      <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}></div>
                   </div>
                 </div>
-                <MessageInput onAdd = {this.AddNewChat.bind(this)} ></MessageInput>
+                <MessageInput onclick={this.messageListChanger.bind(this)}></MessageInput>
               </div>
             </div>
           </div>
         </div>
-        <MessageInput onAdd = {this.AddNewChat.bind(this)} ></MessageInput>
+        <MessageInput></MessageInput>
       </>
     );
   }
