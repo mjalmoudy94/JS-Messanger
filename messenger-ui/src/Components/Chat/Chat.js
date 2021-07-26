@@ -22,6 +22,11 @@ class Chat extends React.Component {
     this.setState({message : message});
   }
 
+    componentDidUpdate()
+  {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
   render() {
     return (  
       <>
@@ -38,7 +43,10 @@ class Chat extends React.Component {
                 </div>
                 <div className="card-body">
                   <div id="message-box" className="chat-box-massage">
-                  <ChatContainer MessageList={this.state.message} />                  </div>
+                    <ChatContainer MessageList={this.state.message} />                 
+                      {/* this is for scroll when component Becomes update*/}
+                      <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}></div>
+                  </div>
                 </div>
                 <MessageInput onclick={this.messageListChanger.bind(this)}></MessageInput>
               </div>
