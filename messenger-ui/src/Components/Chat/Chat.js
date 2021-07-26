@@ -2,7 +2,7 @@ import './Chat.css';
 import React from 'react';
 
 import MessageInput from '../messageInput/messageInput';
-import ChatContainer from '../chat-container/container';
+import ChatContainer from '../chat-container/chat-container';
 import {TextMessage}  from '../../core/DataClasses/TextMessage';
 
 class Chat extends React.Component {
