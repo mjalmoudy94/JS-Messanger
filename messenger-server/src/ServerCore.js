@@ -27,9 +27,9 @@ exports.CoreServer = class CoreServer{
     OnConnection = (ws,req) => {
         console.log(`New Connection.`)
         //
-        ws.on('message', (s) => {
-            console.log(`OnMessage ${s}`)
-            //this.OnMessage(message,ws);
+        ws.on('message', (message) => {
+            //console.log(`OnMessage ${s}`)
+            this.OnMessage(message,ws);
         });
         ws.on('close', () => {
             console.log(`close`)
@@ -43,7 +43,7 @@ exports.CoreServer = class CoreServer{
         let message = JSON.parse(messageJson);
         //
         if (message.MessageType === 'Login'){
-            this.LoginUser(message.Data.UserName,message.Data.Password,ws);
+            this.LoginUser(message.Data,ws);
         } else if(message.MessageType === 'NewMessage'){
             console.log('NewMessage');
         }
@@ -61,17 +61,29 @@ exports.CoreServer = class CoreServer{
     //
     //
     userIDStartRange = 1000000;
-    LoginUser = (UserName,Password,ws) => {
-        console.log(`LoginUser(): ${UserName} , ${Password}`)
+    LoginUser = (Data,ClientSocket) => {
+        console.log(`LoginUser(): ${Data.UserName} , ${Data.Password}`)
+        //// check ////
+        if(Data.UserName === null || Data.UserName === '' || Data.UserName === undefined){
+            let UnSuccessLoginAction = new Actions.LoginState('Error');
+            UnSuccessLoginAction.Data.Message = 'No User Name Send!';
+            this.SendAction(SuccessLoginAction,Data.UserName);
+        }
         //// init ////
-        ws.id = ++this.userIDStartRange;
-        ws.UserName = UserName;
+        ClientSocket.id = ++this.userIDStartRange;
+        ClientSocket.UserName = Data.UserName;
         //// do ////
-        this.ClientConnectionSocketLists.push(ws);
+        this.ClientConnectionSocketLists.push(ClientSocket);
         //// clear ////
         let SuccessLoginAction = new Actions.LoginState('Success');
+        SuccessLoginAction.Data.Message = 'login successfully!'
+        this.SendAction(SuccessLoginAction,Data.UserName);
     }
     //
+    //
+    SendAction = (Action,UserName) => {
+
+    }
 }
 
 

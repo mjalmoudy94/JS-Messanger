@@ -8,10 +8,12 @@ class Action {
 }
 
 Actions.LoginState = class extends Action{
-    constructor(State,To) {
+    constructor(State,Message,From) {
         super('LoginState');
         this.Data.State = State;
-        this.Data.To = To;
+        this.Data.Messge = Message;
+        // From is the server name
+        this.Data.To = From;
     }
 }
 

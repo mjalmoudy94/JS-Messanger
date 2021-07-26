@@ -1,11 +1,9 @@
 import './Login.css'
 import Core from "../../core/Core";
+import LoginDetails from "../../core/DataClasses/LoginDetails";
 
 const Login = (Props) => {
-    const UserData = {
-        UserName: '',
-        Password: ''
-    }
+    const UserData = new LoginDetails ();
 
     function Connect() {
         Core.Login(UserData);

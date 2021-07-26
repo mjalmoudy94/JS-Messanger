@@ -55,7 +55,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div className={'AppComponent'}>
-                {/*<Login Status={this.state.ConnectionStatues}/>*/}
+                <Login Status={this.state.ConnectionStatues}/>
                 <Chat />
             </div>
         );
