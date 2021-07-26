@@ -4,6 +4,8 @@ import React from 'react';
 import MessageInput from '../messageInput/messageInput';
 import ChatContainer from '../chat-container/chat-container';
 import {TextMessage}  from '../../core/DataClasses/TextMessage';
+import StatusBar from '../StatusBar/StatusBar';
+
 
 class Chat extends React.Component {
 
@@ -41,11 +43,7 @@ class Chat extends React.Component {
             <div className="col-6">
               <div className="card container">
                 <div className="card-header">
-                  <div className="row">
-                    <div className="offset-8 item-hover">
-                      <i className="fas fa-bell bell-color"><i className="fa fa-circle-1" style={{ margin: "10px", fontSize: "15px", color: "red" }} ></i></i>
-                    </div>
-                  </div>
+                  <StatusBar></StatusBar>
                 </div>
                 <div className="card-body">
                   <div id="message-box" className="chat-box-massage">

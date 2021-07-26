@@ -1,15 +1,20 @@
 import './StatusBar.css'
+import React from "react"
 
-const StatusBar =  ({Status}) => {
-    return (
-        <div className={'StatusBarComponent'}>
-            <h5>{Status} </h5>
-        </div>
-    );
+export default class StatusBar extends React.Component
+{
+    render(){
+        return(
+            <div className="row">
+                <div className="offset-10 item-hover">
+                   
+                    {/* this is zangole for nonfiction */}
+                    <i className="fas fa-bell bell-color">
+                        <i className="fa fa-circle-1" style = {{ margin: "10px", fontSize: "15px", color: "red" }} >
+                        </i>
+                    </i>
+                </div>
+            </div>
+        );
+    }
 }
-
-StatusBar.defaultProps = {
-    Message : 'Unknown'
-}
-
-export default StatusBar;
