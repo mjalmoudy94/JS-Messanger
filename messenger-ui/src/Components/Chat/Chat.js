@@ -14,6 +14,13 @@ class Chat extends React.Component {
     this.state = {message : [new TextMessage("hello"), new TextMessage("hi"),new TextMessage("Amirreza")]}
   } 
     
+  messageListChanger(item)
+  {
+    let message = this.state.message;
+    console.log(message);
+    message.push(new TextMessage(item));
+    this.setState({message : message});
+  }
 
   render() {
     return (  
@@ -33,7 +40,7 @@ class Chat extends React.Component {
                   <div id="message-box" className="chat-box-massage">
                   <ChatContainer MessageList={this.state.message} />                  </div>
                 </div>
-                <MessageInput></MessageInput>
+                <MessageInput onclick={this.messageListChanger.bind(this)}></MessageInput>
               </div>
             </div>
           </div>
