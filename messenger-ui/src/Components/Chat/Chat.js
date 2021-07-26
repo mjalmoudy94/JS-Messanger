@@ -2,40 +2,20 @@ import './Chat.css';
 import React from 'react';
 
 import MessageInput from '../messageInput/messageInput';
-import { MediaChat } from '../media-chat/media-chat';
-import { MediaChatReverse } from '../media-chat/media-chat';
 import ChatContainer from '../chat-container/container';
+import {TextMessage}  from '../../core/DataClasses/TextMessage';
 
 class Chat extends React.Component {
 
   constructor(props)
   {
     super(props);
-    this.state = { message:[null] };
+    //test 
+    this.state = {message : [new TextMessage("hello"), new TextMessage("hi"),new TextMessage("Amirreza")]}
   } 
-
-  // this function call in message input
-  AddNewChat(event)
-  {
-    let temp = this.state.message;
-
-    if(event.type === 'keypress')
-    {
-        if(event.code === "Enter" && event.target.value !== null && event.target.value !== '')
-        {
-          temp.push(event.target.value);
-        }
-    }
-    else if(event.type === 'click')
-    {
-        temp.push(event.target.value);
-    } 
-
-    this.setState({message : temp});
-  }
+    
 
   render() {
-    
     return (  
       <>
         <div className="container">
@@ -51,15 +31,14 @@ class Chat extends React.Component {
                 </div>
                 <div className="card-body">
                   <div id="message-box" className="chat-box-massage">
-                    <ChatContainer />
-                  </div>
+                  <ChatContainer MessageList={this.state.message} />                  </div>
                 </div>
-                <MessageInput onAdd = {this.AddNewChat.bind(this)} ></MessageInput>
+                <MessageInput></MessageInput>
               </div>
             </div>
           </div>
         </div>
-        <MessageInput onAdd = {this.AddNewChat.bind(this)} ></MessageInput>
+        <MessageInput></MessageInput>
       </>
     );
   }
