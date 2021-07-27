@@ -19,7 +19,7 @@ export default class App extends React.Component {
         // Component State
         this.state = {
             ConnectionStatues: '',
-            CurrentPageName: 'Chat',
+            CurrentPageName: 'Login',
             isMounted: false
         }
     }
@@ -56,8 +56,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div className={'AppComponent'}>
-                <Chat PageName={this.state.CurrentPageName}  />
-                <Login PageName={this.state.CurrentPageName} Status={this.state.ConnectionStatues}/>
+                {/*navigate between pages*/}
+                { this.state.CurrentPageName === 'Chat' && <Chat /> }
+                { this.state.CurrentPageName === 'Login' && <Login Status={this.state.ConnectionStatues}/> }
             </div>
         );
     }

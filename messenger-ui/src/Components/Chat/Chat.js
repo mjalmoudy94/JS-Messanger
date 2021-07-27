@@ -46,24 +46,25 @@ class Chat extends React.Component {
                         <div className="col-6">
                             <div className="card container">
                                 <div className="card-header">
-                                    <StatusBar></StatusBar>
+                                    <StatusBar/>
                                 </div>
                                 <div className="card-body">
                                     <div id="message-box" className="chat-box-massage">
                                         <ChatContainer MessageList={this.state.message}/>
                                         {/* this is for scroll when component Becomes update*/}
-                                        <div style={{float: "left", clear: "both"}} ref={(el) => {
-                                            this.messagesEnd = el;
-                                        }}></div>
+                                        <div style={{float: "left", clear: "both"}}
+                                             ref={(el) => {
+                                                this.messagesEnd = el;
+                                                }}
+                                        />
                                     </div>
                                 </div>
-                                <MessageInput onclick={this.messageListChanger.bind(this)}></MessageInput>
+                                <MessageInput onclick={this.messageListChanger.bind(this)}/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>{"test"}</div>
-                <MessageInput></MessageInput>
+                <MessageInput/>
             </>
         )
     };
