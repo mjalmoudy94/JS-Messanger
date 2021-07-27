@@ -19,7 +19,7 @@ const Login = (Props) => {
         UserData.Password = event.target.value
     }
 
-    return (
+    if (Props.PageName === "Login") return (
         <div className='LoginComponent'>
             <div className="main">
                 <p className="sign">Sign in</p>
@@ -37,6 +37,9 @@ const Login = (Props) => {
             </p>
         </div>
     );
+
+    return(<></>)
+
 };
 
 export default Login;
