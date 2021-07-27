@@ -34,6 +34,12 @@ export default class App extends React.Component {
         }
     }
 
+    //change current page with this page
+    GoToPage(PageName)
+    {
+        this.setState({CurrentPageName : PageName });
+    }
+
     componentDidMount() {
         this.setState((state, props) => ({
             isMounted: true
