@@ -1,8 +1,7 @@
-import {TextMessage} from "./DataType/TextMessage";
-import {User} from "./DataType/User";
-import {PrivateChat} from "./DataType/PrivateChat";
-
-const {LoginStateAction} = require("./DataType/LoginStateAction");
+const Users = require('./Types/Users').Users
+const Chats = require('./Types/Chats').Chats
+const Actions = require('./Types/Actions').Actions
+const Messages = require('./Types/Messages').Messages
 
 const express = require('express');
 //
@@ -16,7 +15,7 @@ exports.CoreServer = class CoreServer{
             return next();
         });
         //
-        this.Express.get('/', function(req, res, next){
+        this.Express.get('/', function(req, res){
             res.write('Building!');
             res.end();
         });
@@ -29,12 +28,12 @@ exports.CoreServer = class CoreServer{
     }
     //
     // Connections Events
-    OnConnection = (ws,req) => {
+    OnConnection = (ws) => {
         console.log(`New Connection.`)
         //
-        ws.on('message', (s) => {
-            console.log(`OnMessage ${s}`)
-            //this.OnMessage(message,ws);
+        ws.on('message', (Message) => {
+            console.log(`OnMessage ${Message}`)
+            this.OnMessage(Message,ws);
         });
         ws.on('close', () => {
             console.log(`close`)
@@ -50,8 +49,8 @@ exports.CoreServer = class CoreServer{
         if (message.MessageType === 'Login'){
             this.LoginUser(message.Data.UserName,message.Data.Password,ws);
         }   if (message.MessageType === 'GetMessage'){
-            let mamad = new User();
-            let amir = new User();
+            let mamad = new Users.User();
+            let amir = new Users.User();
             //
             mamad.ID = 1;
             mamad.UserName = 'mamad';
@@ -59,12 +58,12 @@ exports.CoreServer = class CoreServer{
             amir.ID = 2;
             amir.UserName = 'amir';
             //
-            let chatMamadVaAmir = new PrivateChat();
+            let chatMamadVaAmir = new Chats.PrivateChat();
             chatMamadVaAmir.ID = 1;
             //
             //
             ws.send(JSON.stringify([
-                new TextMessage('mamad')
+                new Messages.TextMessage('mamad')
             ]));
             //
         } else if(message.MessageType === 'NewMessage'){
@@ -73,11 +72,11 @@ exports.CoreServer = class CoreServer{
     }
     //
     OnClose = (ws) => {
-        this.ClientConnectionSocketLists.filter(function(Connection, index, arr){
+        this.ClientConnectionSocketLists.filter(function(Connection){
             Connection.id === ws.id && console.log(`${Connection.UserName} disconnected.`);
         });
         //
-        this.ClientConnectionSocketLists = this.ClientConnectionSocketLists.filter(function(Connection, index, arr){
+        this.ClientConnectionSocketLists = this.ClientConnectionSocketLists.filter(function(Connection){
             return Connection.id !== ws.id;
         });
     }
@@ -92,9 +91,13 @@ exports.CoreServer = class CoreServer{
         //// do ////
         this.ClientConnectionSocketLists.push(ws);
         //// clear ////
-        let SuccessLoginAction = new LoginStateAction({state : 'Success'});
+        let SuccessLoginAction = new Actions.LoginState("Success");
+        this.DoAction(SuccessLoginAction,UserName);
     }
     //
+    DoAction = (Action,UserName) => {
+
+    }
 }
 
 

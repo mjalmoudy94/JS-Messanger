@@ -1,4 +1,6 @@
-export class User{
+class Users {}
+
+Users.User = class {
     constructor() {
         this.ID = 0;
         this.UserName = '';
@@ -7,3 +9,5 @@ export class User{
         this.IsDeletedAccount = false;
     }
 }
+
+exports.Users = Users;
