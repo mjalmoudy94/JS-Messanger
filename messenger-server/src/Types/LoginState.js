@@ -12,4 +12,4 @@ class LoginState {
     }
 }
 
-export default LoginState;
+exports.LoginState = LoginState;

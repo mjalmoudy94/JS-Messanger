@@ -8,7 +8,7 @@ import Login from "./Components/Login/Login";
 import MessageBox from "./Components/MessageBox/MessageBox";
 
 // Class Imports
-import Core from "./core/Core";
+import UiCore from "./core/UiCore";
 import Chat from "./Components/Chat/Chat";
 // test second
 
@@ -51,11 +51,11 @@ export default class App extends React.Component {
             isMounted: true
         }), () => {
             //
-            Core.UiEvents = {
+            UiCore.UiEvents = {
                 UpdateConnectionStatus : this.SetConnectionStatuesMessage,
                 ChangePage : this.GoToPage
             }
-            Core.Connect('ws://localhost:8080/SocketBridge');
+            UiCore.Connect('ws://localhost:8080/SocketBridge');
         });
         //
     }

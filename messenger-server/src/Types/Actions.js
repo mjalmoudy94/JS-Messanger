@@ -1,3 +1,5 @@
+const LoginState = require('./LoginState')
+
 class Actions {}
 
 Actions.Action = class {
@@ -5,16 +7,30 @@ Actions.Action = class {
         this.Type = Type;
         this.Data = Data;
     }
-}
-
-Actions.LoginState = class extends Actions.Action{
-    constructor(State,Message,From) {
-        super('LoginState',{
-            State : State,
-            Message : Message,
-            From : From
-        });
+    Parse(Action){
+        if (typeof Action === 'object'){
+            this.Data = Action.Data
+        }else {
+            try {
+                this.Data = JSON.parse(Action).Data
+            }catch (e) {
+                console.log(e)
+            }
+        }
     }
 }
+
+Actions.ChangeLoginState = class extends Actions.Action{
+    constructor(LoginState) {
+        super('ChangeLoginState');
+        this.Data = LoginState;
+    }
+
+}
+
+Actions.Type = {
+    ChangeLoginState : 'ChangeLoginState'
+}
+
 
 exports.Actions = Actions;

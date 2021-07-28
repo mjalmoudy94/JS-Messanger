@@ -4,7 +4,7 @@ import {LoginAction} from "./DataClasses/LoginAction";
 import Actions from "../Types/Actions";
 import LoginState from "../Types/LoginState";
 
-class Core {
+class UiCore {
     constructor(URL, ApplicationEvents) {
         console.log('constructor');
         this._ApplicationEvents = ApplicationEvents;
@@ -13,6 +13,7 @@ class Core {
     }
     static UiEvents = new UiEvents();
     static ConnectionStatus = ConnectionStatus.Disconnected;
+    static LastTryTimeoutLength = 1000;
     //
     static Connect = (URL) => {
         console.log(`Connect(${URL})`);
@@ -35,16 +36,20 @@ class Core {
     static OnOpen = (event) => {
         console.log('OnOpen()');
         this.UiEvents.UpdateConnectionStatus('Connected!');
-        //this._ConnectingTryDelay = 0;
+        UiCore.LastTryTimeoutLength = 1000;
     }
     //
     static OnClose = (event) => {
         console.log('OnClose()');
         this._Socket = undefined;
-        this.UiEvents.UpdateConnectionStatus('Close!');
-        //this._ConnectingTryDelay = this._ConnectingTryDelay + 5;
-        //this._ApplicationEvents.UpdateApplicationStatus(`Try Again After ${this._ConnectingTryDelay} Seconds.`)
-        //setTimeout(this.Connect, this._ConnectingTryDelay)
+        this.UiEvents.UpdateConnectionStatus(`Close! Connecting after ${UiCore.LastTryTimeoutLength / 1000}sec...`);
+        this.UiEvents.ChangePage('Login')
+        //
+        setTimeout(()=>{
+            UiCore.Connect('ws://localhost:8080/SocketBridge');
+        },UiCore.LastTryTimeoutLength)
+        //// clear ////
+        UiCore.LastTryTimeoutLength = UiCore.LastTryTimeoutLength + 1000;
     }
     //
     static OnError = (event) => {
@@ -54,20 +59,23 @@ class Core {
     /**
      //* @param {{Type: string, Data: {}}} Action
      */
-    static OnMessage = (Action) => {
-        console.log('On Message: ' + JSON.stringify(Action))
+    static OnMessage = (WSMessage) => {
+        console.log('On Message: ' + WSMessage.data)
         //
+        let Action = new Actions.Action();
         try {
-            Action = JSON.stringify(Action);
+            Action = JSON.parse(WSMessage.data);
         }catch (e){
             console.error(e)
         }
         //
         if (Action.Type === Actions.Type.ChangeLoginState){
+            console.log('2')
             let CLSAction = new Actions.ChangeLoginState();
-            CLSAction.Parse(Action);
+            CLSAction = Action;
             //
-            if(CLSAction.Data.State === LoginState.State.Successful) {
+            if(CLSAction.Data.State === LoginState.Status.Successful) {
+                console.log('3')
                 this.UiEvents.ChangePage('Chat');
             }
         }
@@ -124,4 +132,4 @@ class Core {
     }
 }
 
-export default Core;
+export default UiCore;

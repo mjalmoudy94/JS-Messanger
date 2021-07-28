@@ -1,5 +1,5 @@
 import './Login.css'
-import Core from "../../core/Core";
+import UiCore from "../../core/UiCore";
 
 const Login = (Props) => {
     const UserData = {
@@ -8,7 +8,7 @@ const Login = (Props) => {
     }
 
     function Connect() {
-        Core.Login(UserData);
+        UiCore.Login(UserData);
     }
 
     function UpdateUserName(event) {

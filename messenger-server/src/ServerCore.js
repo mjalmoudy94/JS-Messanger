@@ -2,6 +2,7 @@ const Users = require('./Types/Users').Users
 const Chats = require('./Types/Chats').Chats
 const Actions = require('./Types/Actions').Actions
 const Messages = require('./Types/Messages').Messages
+const LoginState = require('./Types/LoginState').LoginState
 
 const express = require('express');
 //
@@ -90,7 +91,8 @@ exports.CoreServer = class CoreServer{
         //// do ////
         this.ClientConnectionSocketLists.push(ws);
         //// clear ////
-        let SuccessLoginAction = new Actions.LoginState("Success");
+        let LoginStatus = new LoginState(LoginState.Status.Successful)
+        let SuccessLoginAction = new Actions.ChangeLoginState(LoginStatus);
         this.SendAction(SuccessLoginAction,UserName);
     }
     //
@@ -99,7 +101,7 @@ exports.CoreServer = class CoreServer{
         //
         this.ClientConnectionSocketLists.find((ws)=>{
             if (ws.UserName === UserName) return ws;
-        }).send('test');
+        }).send(JSON.stringify(Action));
     }
 }
 

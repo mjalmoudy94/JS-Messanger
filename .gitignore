@@ -8,5 +8,4 @@ build/
 /*/package-lock.json
 /*/node_modules
 
-/desktop.ini
-
+*desktop.ini
