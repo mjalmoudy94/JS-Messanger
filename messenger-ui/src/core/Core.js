@@ -1,6 +1,8 @@
 import {ConnectionStatus} from "./ConnectionStatus";
 import {UiEvents} from "./UiEvents";
 import {LoginAction} from "./DataClasses/LoginAction";
+import Actions from "../Types/Actions";
+import LoginState from "../Types/LoginState";
 
 class Core {
     constructor(URL, ApplicationEvents) {
@@ -27,7 +29,7 @@ class Core {
         this._Socket.addEventListener('open', this.OnOpen);
         this._Socket.addEventListener('close', this.OnClose);
         this._Socket.addEventListener('error', this.OnError);
-        this._Socket.addEventListener('message', this.OnUpdate);
+        this._Socket.addEventListener('message', this.OnMessage);
     }
     //
     static OnOpen = (event) => {
@@ -49,19 +51,33 @@ class Core {
         //this._ApplicationEvents.UpdateApplicationStatus('Error!');
     }
     //
-    static OnUpdate = (event) => {
-        //if (event.data === ('Connected')){
-            //let Details = new LoginDetails(this._UserData)
-            //this._Socket.send(JSON.stringify(Details))
-        //}
+    /**
+     //* @param {{Type: string, Data: {}}} Action
+     */
+    static OnMessage = (Action) => {
+        console.log('On Message: ' + JSON.stringify(Action))
+        //
+        try {
+            Action = JSON.stringify(Action);
+        }catch (e){
+            console.error(e)
+        }
+        //
+        if (Action.Type === Actions.Type.ChangeLoginState){
+            let CLSAction = new Actions.ChangeLoginState();
+            CLSAction.Parse(Action);
+            //
+            if(CLSAction.Data.State === LoginState.State.Successful) {
+                this.UiEvents.ChangePage('Chat');
+            }
+        }
     }
     //
     /**
-     * @param {Action} Action
+     * @param {{Type: string, Data: {}}} Action
      */
     static DoAction = (Action) => {
-        console.log(`DoAction: ${Action}`)
-        console.log(`JSON.stringify ${JSON.stringify(Action)}`);
+        console.log(`DoAction: ${JSON.stringify(Action)}`)
         //// init ////
         if (this._Socket === undefined) {
             console.log(`_Socket === undefined`);
@@ -78,7 +94,7 @@ class Core {
     }
     //
     /**
-     * @param {LoginDetails} Detail
+     * @param {{UserName: string, Password: string}} Detail
      */
     static Login = (Detail) => {
         //// init ////
@@ -89,7 +105,6 @@ class Core {
             console.log(`DoAction(LoginAction)`)
         }
         //// clean ////
-
     }
     //
     /**
@@ -102,7 +117,7 @@ class Core {
         //// do ////
         if (!this.DoAction(action)){
             console.log('NoConnection');
-            return;
+
         }
         //// clean ////
         //this.UiEvents.SetMessageBoxValue('');

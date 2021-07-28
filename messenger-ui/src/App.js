@@ -28,16 +28,22 @@ export default class App extends React.Component {
         console.log(`SetConnectionStatuesMessage: ${Message}`)
         //
         if (this.state.isMounted) {
-            this.setState((state, props) => ({
+            this.setState(() => ({
                 ConnectionStatues: Message
             }));
         }
     }
 
     //change current page with this page
-    GoToPage(PageName)
-    {
-        this.setState({CurrentPageName : PageName });
+    GoToPage = (PageName) => {
+        console.log(`GoToPage: ${PageName}`)
+        //
+        if (this.state.isMounted) {
+            this.setState({
+                CurrentPageName : PageName
+            });
+        }
+
     }
 
     componentDidMount() {
@@ -46,7 +52,8 @@ export default class App extends React.Component {
         }), () => {
             //
             Core.UiEvents = {
-                UpdateConnectionStatus : this.SetConnectionStatuesMessage
+                UpdateConnectionStatus : this.SetConnectionStatuesMessage,
+                ChangePage : this.GoToPage
             }
             Core.Connect('ws://localhost:8080/SocketBridge');
         });

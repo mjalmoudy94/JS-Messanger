@@ -2,7 +2,11 @@ build/
 .idea
 .vscode
 
+/messenger-server/messenger-server.iml
+/messenger-ui/messenger-ui.iml
+
 /*/package-lock.json
 /*/node_modules
 
 /desktop.ini
+

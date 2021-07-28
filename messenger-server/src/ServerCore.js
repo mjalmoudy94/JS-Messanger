@@ -42,13 +42,12 @@ exports.CoreServer = class CoreServer{
         ws.send('Connected');
     }
     //
-    OnMessage = (messageJson,ws) => {
-        console.log(messageJson);
-        let message = JSON.parse(messageJson);
+    OnMessage = (ActionJson,ws) => {
+        let Action = JSON.parse(ActionJson);
         //
-        if (message.MessageType === 'Login'){
-            this.LoginUser(message.Data.UserName,message.Data.Password,ws);
-        }   if (message.MessageType === 'GetMessage'){
+        if (Action.Type === 'Login'){
+            this.LoginUser(Action.Data.UserName,Action.Data.Password,ws);
+        }   if (Action.MessageType === 'GetMessage'){
             let mamad = new Users.User();
             let amir = new Users.User();
             //
@@ -66,7 +65,7 @@ exports.CoreServer = class CoreServer{
                 new Messages.TextMessage('mamad')
             ]));
             //
-        } else if(message.MessageType === 'NewMessage'){
+        } else if(Action.MessageType === 'NewMessage'){
             console.log('NewMessage');
         }
     }
@@ -92,11 +91,15 @@ exports.CoreServer = class CoreServer{
         this.ClientConnectionSocketLists.push(ws);
         //// clear ////
         let SuccessLoginAction = new Actions.LoginState("Success");
-        this.DoAction(SuccessLoginAction,UserName);
+        this.SendAction(SuccessLoginAction,UserName);
     }
     //
-    DoAction = (Action,UserName) => {
-
+    SendAction = (Action, UserName) => {
+        console.log(JSON.stringify(Action));
+        //
+        this.ClientConnectionSocketLists.find((ws)=>{
+            if (ws.UserName === UserName) return ws;
+        }).send('test');
     }
 }
 

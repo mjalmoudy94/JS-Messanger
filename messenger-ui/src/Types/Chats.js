@@ -1,4 +1,4 @@
-const Users = require('./Users').Users
+import Users from "./Users";
 
 class Chats {}
 
