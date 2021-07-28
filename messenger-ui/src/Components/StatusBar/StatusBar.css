@@ -1,7 +1,52 @@
-.StatusBarComponent{
-    padding: 5px;
-    border: 1px solid black;
+.icon {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 10%;
+    height: 100%;
 }
-.StatusBarComponent h5{
-    margin: 0;
+
+@media screen and (min-height: 601px) {
+    .icon > i:first-child {
+        position: relative;
+        width: 15%;
+        font-size: 150%;
+    }
+    .icon > i:last-child {
+        position: relative;
+        font-size: 80%;
+        width: 100%;
+        height: 10%;
+        color: red;
+    }
 }
+
+@media screen and (max-height: 601px) {
+    .icon > i:first-child {
+        position: relative;
+        width: 100%;
+        font-size: 150%;
+    }
+    .icon > i:last-child {
+        position: relative;
+        font-size: 80%;
+        width: 100%;
+        height: 10%;
+        color: red;
+    }
+}
+@media screen and (max-height: 601px) {
+    .icon > i:first-child {
+        position: relative;
+        width: 100%;
+        font-size: 150%;
+    }
+    .icon > i:last-child {
+        position: relative;
+        font-size: 80%;
+        width: 100%;
+        height: 10%;
+        color: red;
+    }
+}
+
