@@ -17,7 +17,8 @@ class Chat extends React.Component {
                 new TextMessage("hello"),
                 new TextMessage("hi"),
                 new TextMessage("Amirreza")],
-            PageName: props.CurrentPageName
+            PageName: props.CurrentPageName,
+            width: window.innerWidth, height: window.innerHeight
         }
     }
 
@@ -34,19 +35,29 @@ class Chat extends React.Component {
         this.setState({message: message});
     }
 
+    updateDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
     componentDidUpdate() {
         this.messagesEnd.scrollIntoView({behavior: "smooth"});
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateDimensions);
     }
 
     render() {
         return (
             <>
-                <div className="container">
-                    <div className="">
-                        <div className="col-6">
-                            <div className="card container">
+                <div style={{height:this.state.height ,width:this.state.width}}>
+                            <div className="card container-fluid" >
                                 <div className="card-header">
-                                    <StatusBar/>
+                                    {/*<StatusBar/>*/}
                                 </div>
                                 <div className="card-body">
                                     <div id="message-box" className="chat-box-massage">
@@ -61,10 +72,7 @@ class Chat extends React.Component {
                                 </div>
                                 <MessageInput onclick={this.messageListChanger.bind(this)}/>
                             </div>
-                        </div>
-                    </div>
                 </div>
-                <MessageInput/>
             </>
         )
     };
